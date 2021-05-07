@@ -8,6 +8,9 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: "",
+      password: "",
+
       error: null,
     };
   }
@@ -15,10 +18,12 @@ class Login extends React.Component {
   getUser = async (e) => {
     e.preventDefault();
     try {
-      const email = e.target.elements.user.value;
-      const password = e.target.elements.password.value;
-      const response = await usersList.loginUser(email, password);
-      
+      const response = await usersList.loginUser(
+        this.state.email,
+        this.state.password
+      );
+     
+
       this.props.history.push("/");
     } catch (error) {
       this.setState({ error: "utilisateur non trouvé" });
@@ -26,7 +31,12 @@ class Login extends React.Component {
     }
   };
 
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
+
     return (
       <section>
         <div className="conatiner">
@@ -37,8 +47,21 @@ class Login extends React.Component {
             <div className="formBx">
               <form onSubmit={this.getUser}>
                 <h2>Sign In</h2>
-                <input type="text" placeholder="User Email" name="user" />
-                <input type="password" placeholder="Password" name="password" />
+
+                <input
+                  type="text"
+                  placeholder="User Email"
+                  name="email"
+                  onChange={this.handleChange}
+                />
+
+                <input
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  onChange={this.handleChange}
+                />
+
                 <input type="submit" value="login" />
                 <p className="signup">
                   don't have an account yet? <Link to="/signup">Sign up.</Link>
