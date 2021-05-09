@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: #fafafa;
+    position: relative;
+    top: 150px;
+}
+.container article {
+    margin: 10px;
+    cursor: pointer;
+    width: 28%;
+}
+article {
+    border: 1px solid lightgray;
+    border-radius: 10px 10px 0 0;
+}
+article img {
+    width: 100%;
+    object-fit: contain;
+    border-bottom: 1px solid lightgray;
+    border-radius: 10px 10px 0 0;
+}
+
+.container article h4, p {
+    margin: 10px;
+}

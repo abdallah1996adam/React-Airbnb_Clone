@@ -1,8 +1,8 @@
 import React from "react";
-import "./login.scss";
+import "./form.scss";
 import keylock from "./images/keylock.jpeg";
 import { Link } from "react-router-dom";
-import usersList from "../../services/";
+import {userService} from "../../services/";
 
 class Login extends React.Component {
   constructor(props) {
@@ -18,13 +18,14 @@ class Login extends React.Component {
   getUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await usersList.loginUser(
+        const response = await userService.loginUser(
         this.state.email,
         this.state.password
       );
      
+      let redirect = (response.data.user.role === "touriste") ? "/" : "/hote" ;
+      this.props.history.push(redirect);
 
-      this.props.history.push("/");
     } catch (error) {
       this.setState({ error: "utilisateur non trouvé" });
       console.log(error);
@@ -38,7 +39,7 @@ class Login extends React.Component {
   render() {
 
     return (
-      <section>
+      <section className="login_box">
         <div className="conatiner">
           <div className="user signinBx">
             <div className="imgBx">

@@ -1,15 +1,17 @@
 import api from './api';
 
 
-const usersList = {
-    registerUser :  (first_name, last_name, email, password, role)=>{
-        return api.post("/signup",{first_name,last_name, email, password, role});
+const userService = {
+    registerUser : async (first_name, last_name, email, password, role)=>{
+        const user = {first_name,last_name, email, password, role}
+        return await api.post("/signup",user);
     },
-    loginUser : (email, password)=>{
-        return  api.post("/signin", {email, password});
+    loginUser : async (email, password)=>{
+        const userData = {email, password}
+        return await api.post("/signin", userData);
     }
 }
 
 
 
-export default usersList;
+export default userService;

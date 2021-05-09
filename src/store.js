@@ -8,10 +8,13 @@ const appContext = React.createContext();
 
 class AppProvider extends React.Component {
   constructor(props) {
+
+    const token = localStorage.getItem('token');
+
     super(props);
     this.state = {
       user: null,
-      isAuth: false,
+      isAuth: token ? true : false,
       setUser: this.setUser,
       setAuth: this.setAuth,
     };

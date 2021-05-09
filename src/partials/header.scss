@@ -1,0 +1,30 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid lightgray;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 5px 5px lightgray;
+}
+.header__logo {
+   object-fit: contain;
+   width: 150px;
+   padding: 20px;
+}
+.header__profil{
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    margin-right: 20px;
+    border-radius: 25px;
+    width: 100px;
+    justify-content: space-between;
+    cursor: pointer;
+}
+.header__profil:hover {
+    box-shadow: 0px 5px 5px lightgray;
+}

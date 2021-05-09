@@ -1,8 +1,9 @@
 import React from "react";
 import key from "./images/key.jpg";
-import usersList from "../../services";
+import {userService} from "../../services";
 import { Link } from "react-router-dom";
-import "./signup.scss";
+import "./form.scss";
+
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -16,11 +17,14 @@ class SignUp extends React.Component {
       error: [],
     };
   }
+  componentDidMount(){
+    
+  }
 
   registerNewUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await usersList.registerUser(
+      const response = await userService.registerUser(
         this.state.firstname,
         this.state.lastname,
         this.state.email,
@@ -39,8 +43,17 @@ class SignUp extends React.Component {
   };
 
   render() {
+    const urlcourante = document.location.href;
+
+    const url = new URL(urlcourante);
+    var hote = 0;
+    var search_params = new URLSearchParams(url.search); 
+    if(search_params.has('h')) {
+      hote = search_params.get('h');
+    } 
+  
     return (
-      <section>
+      <section className="login_box">
         <div className="conatiner">
           <div className="user signupBx">
             <div className="imgBx">
@@ -67,8 +80,7 @@ class SignUp extends React.Component {
 
                 <input
                   type="text"
-                  placeholder="Role"
-                  value="0"
+                  defaultValue= {hote}
                   name="role"
                   style={{ display: "none" }}
                 />

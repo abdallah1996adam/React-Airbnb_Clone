@@ -1,3 +1,4 @@
-import usersList from './users';
+import userService from './users';
+import placeService from "./place";
 
-export default usersList;
+export {userService, placeService};
