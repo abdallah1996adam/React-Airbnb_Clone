@@ -1,10 +1,3 @@
-import React from 'react';
+import Hote from './hote' 
 
-class Hote extends React.Component {
-    render() {
-        return (
-            <h1>Hote</h1>
-        )
-    }
-}
 export default Hote;

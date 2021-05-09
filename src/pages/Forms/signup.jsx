@@ -49,7 +49,7 @@ class SignUp extends React.Component {
     var hote = 0;
     var search_params = new URLSearchParams(url.search); 
     if(search_params.has('h')) {
-      hote = search_params.get('h');
+      hote = 1;
     } 
   
     return (

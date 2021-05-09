@@ -2,9 +2,14 @@ import React from "react";
 import "./form.scss";
 import keylock from "./images/keylock.jpeg";
 import { Link } from "react-router-dom";
-import {userService} from "../../services/";
+import { userService } from "../../services/";
+import AppContext from "../../store";
+import ErrorMessage from "../../components/Alert/ErrorBox";
 
 class Login extends React.Component {
+  
+  static contextType = AppContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -18,14 +23,16 @@ class Login extends React.Component {
   getUser = async (e) => {
     e.preventDefault();
     try {
-        const response = await userService.loginUser(
+      const response = await userService.loginUser(
         this.state.email,
         this.state.password
       );
-     
-      let redirect = (response.data.user.role === "touriste") ? "/" : "/hote" ;
-      this.props.history.push(redirect);
 
+      localStorage.setItem("token", response.data.token);
+      this.context.setAuth(true);
+      let redirect = response.data.user.role === "touriste" ? "/" : "/hote";
+      this.props.history.push(redirect);
+      
     } catch (error) {
       this.setState({ error: "utilisateur non trouvé" });
       console.log(error);
@@ -36,42 +43,56 @@ class Login extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  hideMessage = () => {
+    this.setState({ error: null });
+  };
+
   render() {
-
     return (
-      <section className="login_box">
-        <div className="conatiner">
-          <div className="user signinBx">
-            <div className="imgBx">
-              <img src={keylock} alt="Heart" />
+      <AppContext.Consumer>
+        {(store) => (
+          <section className="login_box">
+            <div className="conatiner">
+              <div className="user signinBx">
+                <div className="imgBx">
+                  <img src={keylock} alt="Heart" />
+                </div>
+                <div className="formBx">
+                  <form onSubmit={this.getUser}>
+                  {this.state.error && (
+                      <ErrorMessage
+                        text={this.state.error}
+                        removeMessage={this.hideMessage}
+                      />
+                    )}
+                    <h2>Sign In</h2>
+
+                    <input
+                      type="text"
+                      placeholder="User Email"
+                      name="email"
+                      onChange={this.handleChange}
+                    />
+
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      name="password"
+                      onChange={this.handleChange}
+                    />
+
+                    <input type="submit" value="login" />
+                    <p className="signup">
+                      don't have an account yet?{" "}
+                      <Link to="/signup">Sign up.</Link>
+                    </p>
+                  </form>
+                </div>
+              </div>
             </div>
-            <div className="formBx">
-              <form onSubmit={this.getUser}>
-                <h2>Sign In</h2>
-
-                <input
-                  type="text"
-                  placeholder="User Email"
-                  name="email"
-                  onChange={this.handleChange}
-                />
-
-                <input
-                  type="password"
-                  placeholder="Password"
-                  name="password"
-                  onChange={this.handleChange}
-                />
-
-                <input type="submit" value="login" />
-                <p className="signup">
-                  don't have an account yet? <Link to="/signup">Sign up.</Link>
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        )}
+      </AppContext.Consumer>
     );
   }
 }
